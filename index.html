@@ -477,10 +477,12 @@
 
       
         
-          以ping为例试验linux权能机制
+          <ol>
+<li><p><code>passwd​</code> ，  <code>sudo​</code> ， <code>ping​</code>  等命令会修改关键文件，确保非<code>root​</code> 用户无法修改，因此需要转换为<code>root​</code> 用户，而<code>setuid​</code> 位可以让用户暂时获得文件拥有者<code>root​</code> 的身份。</p>
+<p>以<code>ping</code> 命令为例，删除<code>s</code> 位后无法<code>ping</code> ，因为没有打开<code>socket</code> 的权限。而当将<code>s</code> 位重新设置时，又可以<code>ping</code>  ：</p></li></ol>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/05/01/Linux-权能机制/">
+            <a class="btn" href="/2018/05/01/Linux-权能机制/#更多" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>

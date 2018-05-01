@@ -109,13 +109,13 @@
 
 
 
-  <meta name="description" content="以ping为例试验linux权能机制">
+  <meta name="description" content="passwd​ ，  sudo​ ， ping​  等命令会修改关键文件，确保非root​ 用户无法修改，因此需要转换为root​ 用户，而setuid​ 位可以让用户暂时获得文件拥有者root​ 的身份。 以ping 命令为例，删除s 位后无法ping ，因为没有打开socket 的权限。而当将s 位重新设置时，又可以ping  ：">
 <meta name="keywords" content="Linux Capability setuid 权能 ping">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux 权能机制">
 <meta property="og:url" content="https://xsyin.github.io/2018/05/01/Linux-权能机制/index.html">
 <meta property="og:site_name" content="Xsyin&#39;s Blog">
-<meta property="og:description" content="以ping为例试验linux权能机制">
+<meta property="og:description" content="passwd​ ，  sudo​ ， ping​  等命令会修改关键文件，确保非root​ 用户无法修改，因此需要转换为root​ 用户，而setuid​ 位可以让用户暂时获得文件拥有者root​ 的身份。 以ping 命令为例，删除s 位后无法ping ，因为没有打开socket 的权限。而当将s 位重新设置时，又可以ping  ：">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://xsyin.github.io/2018/05/01/Linux-权能机制/setuid-ping.png">
 <meta property="og:image" content="https://xsyin.github.io/2018/05/01/Linux-权能机制/%E9%80%89%E5%8C%BA_051.png">
@@ -129,7 +129,7 @@
 <meta property="og:updated_time" content="2018-05-01T02:20:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 权能机制">
-<meta name="twitter:description" content="以ping为例试验linux权能机制">
+<meta name="twitter:description" content="passwd​ ，  sudo​ ， ping​  等命令会修改关键文件，确保非root​ 用户无法修改，因此需要转换为root​ 用户，而setuid​ 位可以让用户暂时获得文件拥有者root​ 的身份。 以ping 命令为例，删除s 位后无法ping ，因为没有打开socket 的权限。而当将s 位重新设置时，又可以ping  ：">
 <meta name="twitter:image" content="https://xsyin.github.io/2018/05/01/Linux-权能机制/setuid-ping.png">
 
 
@@ -479,8 +479,6 @@
           
 
           
-              <div class="post-description">以ping为例试验linux权能机制</div>
-          
 
           
         </div>
@@ -497,8 +495,9 @@
 
       
         <ol>
-<li><p>$passwd$ ，  $sudo$ ， $ping$  等命令会修改关键文件，确保非$root$ 用户无法修改，因此需要转换为$root$ 用户，而$setuid$ 位可以让用户暂时获得文件拥有者$root$ 的身份。</p>
-<p>以$ping$ 命令为例，删除$s$ 位后无法$ping$ ，因为没有打开$socket$ 的权限。而当将$s$ 位重新设置时，又可以$ping$  ：</p>
+<li><p><code>passwd​</code> ，  <code>sudo​</code> ， <code>ping​</code>  等命令会修改关键文件，确保非<code>root​</code> 用户无法修改，因此需要转换为<code>root​</code> 用户，而<code>setuid​</code> 位可以让用户暂时获得文件拥有者<code>root​</code> 的身份。</p>
+<p>以<code>ping</code> 命令为例，删除<code>s</code> 位后无法<code>ping</code> ，因为没有打开<code>socket</code> 的权限。而当将<code>s</code> 位重新设置时，又可以<code>ping</code>  ：</p>
+<a id="more"></a>
 <p><img src="/2018/05/01/Linux-权能机制/setuid-ping.png" alt="选区_047"></p>
 <p>为了执行权限检查，传统的 UNIX 实现区分两种类型的进程：特权进程（其有效用户 ID 为0，称为超级用户或 root），和非特权用户（其有效 UID 非0）。特权进程绕过所有的内核权限检查，而非特权进程受基于进程的认证信息（通常是：有效 UID，有效 GID，和补充组列表）的完整权限检查的支配。</p>
 <p>自内核 2.2 版本开始，Linux 将传统上与超级用户关联的特权分为几个单元，称为 capabilities （权能），它们可以被独立的启用或禁用。权能是每个线程的属性。权能相当于规范了你这个程序所拥有的权限。相当于特权的需求的细化。当执行特权操作的时候，可以查看是否有相应的权能。</p>
