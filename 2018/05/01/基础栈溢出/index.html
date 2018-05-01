@@ -109,13 +109,13 @@
 
 
 
-  <meta name="description" content="目的 理解掌握C 栈帧结构 Shellcode 构造 加深理解栈溢出攻击原理及防护措施  要求 在关闭安全机制下,在Linux系统平台上实现缓冲区溢出攻击 开启安全保护机制,运行一样的溢出攻击代码,比较实现现象  实例​      C 栈帧结构如下：  ​         因此当当前帧的局部变量和临时变量超出区域，覆盖了ebp 和返回地址时，就实现了栈溢出攻击。再通过精心设计返回地址，使其为She">
+  <meta name="description" content="目的 理解掌握C 栈帧结构 Shellcode 构造 加深理解栈溢出攻击原理及防护措施  要求 在关闭安全机制下,在Linux系统平台上实现缓冲区溢出攻击 开启安全保护机制,运行一样的溢出攻击代码,比较实现现象">
 <meta name="keywords" content="栈溢出">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基础栈溢出">
 <meta property="og:url" content="https://xsyin.github.io/2018/05/01/基础栈溢出/index.html">
 <meta property="og:site_name" content="Xsyin&#39;s Blog">
-<meta property="og:description" content="目的 理解掌握C 栈帧结构 Shellcode 构造 加深理解栈溢出攻击原理及防护措施  要求 在关闭安全机制下,在Linux系统平台上实现缓冲区溢出攻击 开启安全保护机制,运行一样的溢出攻击代码,比较实现现象  实例​      C 栈帧结构如下：  ​         因此当当前帧的局部变量和临时变量超出区域，覆盖了ebp 和返回地址时，就实现了栈溢出攻击。再通过精心设计返回地址，使其为She">
+<meta property="og:description" content="目的 理解掌握C 栈帧结构 Shellcode 构造 加深理解栈溢出攻击原理及防护措施  要求 在关闭安全机制下,在Linux系统平台上实现缓冲区溢出攻击 开启安全保护机制,运行一样的溢出攻击代码,比较实现现象">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://xsyin.github.io/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_025.png">
 <meta property="og:image" content="https://xsyin.github.io/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_028.png">
@@ -128,7 +128,7 @@
 <meta property="og:updated_time" content="2018-05-01T02:53:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基础栈溢出">
-<meta name="twitter:description" content="目的 理解掌握C 栈帧结构 Shellcode 构造 加深理解栈溢出攻击原理及防护措施  要求 在关闭安全机制下,在Linux系统平台上实现缓冲区溢出攻击 开启安全保护机制,运行一样的溢出攻击代码,比较实现现象  实例​      C 栈帧结构如下：  ​         因此当当前帧的局部变量和临时变量超出区域，覆盖了ebp 和返回地址时，就实现了栈溢出攻击。再通过精心设计返回地址，使其为She">
+<meta name="twitter:description" content="目的 理解掌握C 栈帧结构 Shellcode 构造 加深理解栈溢出攻击原理及防护措施  要求 在关闭安全机制下,在Linux系统平台上实现缓冲区溢出攻击 开启安全保护机制,运行一样的溢出攻击代码,比较实现现象">
 <meta name="twitter:image" content="https://xsyin.github.io/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_025.png">
 
 
@@ -502,6 +502,7 @@
 <li>在关闭安全机制下,在Linux系统平台上实现缓冲区溢出攻击</li>
 <li>开启安全保护机制,运行一样的溢出攻击代码,比较实现现象</li>
 </ul>
+<a id="more"></a>
 <h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>​      <code>C</code> 栈帧结构如下：</p>
 <p><img src="/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_025.png" alt="区_02"></p>
 <p>​         因此当当前帧的局部变量和临时变量超出区域，覆盖了<code>ebp</code> 和返回地址时，就实现了栈溢出攻击。再通过精心设计返回地址，使其为<code>Shellcode</code> 的起始地址，就完成了运行流的劫持。</p>
