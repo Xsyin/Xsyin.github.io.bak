@@ -456,7 +456,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">5.9k</span>
+                <span title="本文字数">5.4k</span>
               
 
               
@@ -772,14 +772,6 @@
 </tr>
 </tbody>
 </table>
-<ul>
-<li>Required：堆栈中的所有 Required 模块必须看作一个成功的结果。如果一个或多个 Required 模块失败，则实现堆栈中的所有 Required 模块，但是将返回第一个错误。</li>
-<li>requisite：如果本模块没有被满足，那本次认证一定失败，而且整个栈立即中止并返回错误信号。</li>
-<li>Sufficient：如果标记为 sufficient 的模块成功并且先前没有 Required 或 sufficient 模块失败，则忽略堆栈中的所有其余模块并返回成功。</li>
-<li>Optional：如果堆栈中没有一个模块是 required 并且没有任何一个 sufficient 模块成功，则服务/应用程序至少要有一个 optional 模块成功。</li>
-<li>include：包含其他规则（服务），文件嵌套，可以互相调用，如：login，auth，nclude ，system-auth等</li>
-<li>高级控制条件： [value1=action1  value2=action2 ….]， 六种动作：ok ，done，bad，die，ignore，reset。</li>
-</ul>
 <p>​       Example：auth [user_unknown=ignore success=ok ignore=ignore default=bad] pam_securetty.so</p>
 <ol>
 <li><code>Module_path</code> 将指定实现模块的库对象的路径名称。默认情况下，它将被设为 <code>/lib/security</code>。        <img src="/2018/05/01/Linux权能与PAM机制/libpam.png" alt="libpam"></li>
@@ -796,7 +788,7 @@
 <li>切换到用户<code>userping</code> 再<code>ping</code> 无法<code>ping</code>   : <code>su userping</code> </li>
 <li><code>userping</code> 登录时给<code>/bin/ping</code> 添加权能：</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>####################################################</span><br><span class="line"><span class="meta">#</span> File Name: ping_cap.sh</span><br><span class="line"><span class="meta">#</span> Author: xsyin</span><br><span class="line"><span class="meta">#</span> mail: shouyinXu@163.com</span><br><span class="line"><span class="meta">#</span> Created Time: 2018年04月30日 星期一 16时05分57秒</span><br><span class="line"><span class="meta">#</span>###################################################</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">[ "$PAM_TYPE" = "open_session" ] || exit 0</span><br><span class="line"></span><br><span class="line">if [ "$PAM_USER" == "userping" ]; then</span><br><span class="line">	setcap cap_net_raw=eip /bin/ping</span><br><span class="line">	echo "SUCCESS"</span><br><span class="line">else</span><br><span class="line">	echo "FAILURE"</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">####################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> File Name: ping_cap.sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Author: xsyin</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> mail: shouyinXu@163.com</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Created Time: 2018年04月30日 星期一 16时05分57秒</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###################################################</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line">[ "$PAM_TYPE" = "open_session" ] || exit 0</span><br><span class="line"></span><br><span class="line">if [ "$PAM_USER" == "userping" ]; then</span><br><span class="line">	setcap cap_net_raw=eip /bin/ping</span><br><span class="line">	echo "SUCCESS"</span><br><span class="line">else</span><br><span class="line">	echo "FAILURE"</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 <ul>
 <li>将<code>ping_cap.sh</code> 移动到 <code>/usr/local/bin</code> 路径下，并设置为可执行：</li>
 </ul>
@@ -842,6 +834,40 @@
     
 
     
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/05/01/Linux权能与PAM机制/">Linux权能与PAM机制</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Xsyin 的个人博客">Xsyin</a></p>
+  <p><span>发布时间:</span>2018年05月01日 - 08:05</p>
+  <p><span>最后更新:</span>2018年05月01日 - 08:05</p>
+  <p><span>原始链接:</span><a href="/2018/05/01/Linux权能与PAM机制/" title="Linux权能与PAM机制">https://xsyin.github.io/2018/05/01/Linux权能与PAM机制/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://xsyin.github.io/2018/05/01/Linux权能与PAM机制/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
+
+      </div>
+    
 
     
 
@@ -850,7 +876,7 @@
         <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
   <div>我知道是不会有人点的，但万一有人想不开呢？</div>
   <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>打赏</span>
+    <span>赏</span>
   </button>
   <div id="QR" style="display: none;">
 
@@ -1126,7 +1152,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">6 分钟</span>
+    <span title="站点阅读时长">5 分钟</span>
   
 </div>
 
