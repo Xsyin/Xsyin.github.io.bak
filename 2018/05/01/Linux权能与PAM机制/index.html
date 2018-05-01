@@ -109,20 +109,32 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Xsyin&#39;s Blog">
-<meta property="og:url" content="https://xsyin.github.io/index.html">
+  <meta name="description" content="实验环境：uname -a ​      Linux ubuntu 4.4.0-121-generic #145-Ubuntu SMP Fri Apr 13 13:47:23 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux   权能对应的系统调用使用 sudo find / -name capability.h 查找到路径 /usr/src/linux-heade">
+<meta name="keywords" content="Linux,capability">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux权能与PAM机制">
+<meta property="og:url" content="https://xsyin.github.io/2018/05/01/Linux权能与PAM机制/index.html">
 <meta property="og:site_name" content="Xsyin&#39;s Blog">
+<meta property="og:description" content="实验环境：uname -a ​      Linux ubuntu 4.4.0-121-generic #145-Ubuntu SMP Fri Apr 13 13:47:23 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux   权能对应的系统调用使用 sudo find / -name capability.h 查找到路径 /usr/src/linux-heade">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/01/Linux权能与PAM机制/pam.png">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/01/Linux权能与PAM机制/libpam.png">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/01/Linux权能与PAM机制/%E9%80%89%E5%8C%BA_057.png">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/01/Linux权能与PAM机制/%E9%80%89%E5%8C%BA_058.png">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/01/Linux权能与PAM机制/%E9%80%89%E5%8C%BA_059.png">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/01/Linux权能与PAM机制/%E9%80%89%E5%8C%BA_061.png">
+<meta property="og:updated_time" content="2018-05-01T00:09:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Xsyin&#39;s Blog">
+<meta name="twitter:title" content="Linux权能与PAM机制">
+<meta name="twitter:description" content="实验环境：uname -a ​      Linux ubuntu 4.4.0-121-generic #145-Ubuntu SMP Fri Apr 13 13:47:23 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux   权能对应的系统调用使用 sudo find / -name capability.h 查找到路径 /usr/src/linux-heade">
+<meta name="twitter:image" content="https://xsyin.github.io/2018/05/01/Linux权能与PAM机制/pam.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://xsyin.github.io/"/>
+  <link rel="canonical" href="https://xsyin.github.io/2018/05/01/Linux权能与PAM机制/"/>
 
 
 
@@ -132,7 +144,7 @@
   };
 </script>
 
-  <title>Xsyin's Blog</title>
+  <title>Linux权能与PAM机制 | Xsyin's Blog</title>
   
 
 
@@ -189,8 +201,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <a href="https://github.com/Xsyin/Xsyin.github.io" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
@@ -232,7 +243,7 @@
         
         
           
-          <li class="menu-item menu-item-home menu-item-active">
+          <li class="menu-item menu-item-home">
     <a href="/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
@@ -331,9 +342,9 @@
           
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -365,11 +376,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/01/Linux权能与PAM机制/" itemprop="url">
-                  Linux权能与PAM机制
-                </a>
+          <h1 class="post-title" itemprop="name headline">Linux权能与PAM机制
               
             
           </h1>
@@ -429,6 +436,14 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
 
           
             <div class="post-symbolscount">
@@ -476,21 +491,335 @@
       
 
       
-        
-          <blockquote>
+        <blockquote>
 <p>实验环境：<code>uname -a</code></p>
 <p>​      <code>Linux ubuntu 4.4.0-121-generic #145-Ubuntu SMP Fri Apr 13 13:47:23 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux</code></p>
 </blockquote>
 <hr>
 <h3 id="权能对应的系统调用"><a href="#权能对应的系统调用" class="headerlink" title="权能对应的系统调用"></a>权能对应的系统调用</h3><p>使用 <code>sudo find / -name capability.h</code> 查找到路径 <code>/usr/src/linux-headers-4.4.0-121/include/uapi/linux/capbility.h</code>  ，整理可得下表：</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/01/Linux权能与PAM机制/#更多" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+<a id="more"></a>
+<table>
+<thead>
+<tr>
+<th>权能</th>
+<th>编号(相关系统调用）</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CAP_CHOWN</td>
+<td>0(chown)</td>
+<td>对文件的UIDs和GIDs做任意修改</td>
+</tr>
+<tr>
+<td>CAP_DAC_OVERRIDE</td>
+<td>1</td>
+<td>忽略对文件的DAC访问限制</td>
+</tr>
+<tr>
+<td>CAP_DAC_READ_SEARCH</td>
+<td>2</td>
+<td>忽略DAC中对文件和目录的读、搜索权限</td>
+</tr>
+<tr>
+<td>CAP_FOWNER</td>
+<td>3</td>
+<td>忽略进程UID与文件UID的匹配检查</td>
+</tr>
+<tr>
+<td>CAP_FSETID</td>
+<td>4</td>
+<td>文件修改时不清除setuid和setgid位，不匹配时设置setgid位</td>
+</tr>
+<tr>
+<td>CAP_KILL</td>
+<td>5(kill)</td>
+<td>绕过发送信号时的权限检查</td>
+</tr>
+<tr>
+<td>CAP_SETGID</td>
+<td>6</td>
+<td>设置或管理进程GID</td>
+</tr>
+<tr>
+<td>CAP_SETUID</td>
+<td>7</td>
+<td>管理或设置进程UID</td>
+</tr>
+<tr>
+<td>CAP_SETPCAP</td>
+<td>8</td>
+<td>允许授予或删除其他进程的任何权能</td>
+</tr>
+<tr>
+<td>CAP_LINUX_IMMUTABLE</td>
+<td>9(chattr)</td>
+<td>允许设置文件的不可修改位(IMMUTABLE)和只添加(APPND-ONLY)属性</td>
+</tr>
+<tr>
+<td>CAP_NET_BIND_SERVICE</td>
+<td>10</td>
+<td>允许绑定到小于1024的端口</td>
+</tr>
+<tr>
+<td>CAP_NET_BROADCAST</td>
+<td>11</td>
+<td>允许socket发送监听组播</td>
+</tr>
+<tr>
+<td>CAP_NET_ADMIN</td>
+<td>12</td>
+<td>允许执行网络管理任务</td>
+</tr>
+<tr>
+<td>CAP_NET_RAW</td>
+<td>13</td>
+<td>允许使用原始套接字</td>
+</tr>
+<tr>
+<td>CAP_IPC_LOCK</td>
+<td>14(mlock)</td>
+<td>允许锁定共享内存片段</td>
+</tr>
+<tr>
+<td>CAP_IPC_OWNER</td>
+<td>15</td>
+<td>忽略IPC所有权检查</td>
+</tr>
+<tr>
+<td>CAP_SYS_MOUDLE</td>
+<td>16(init_module)</td>
+<td>插入和删除内核模块</td>
+</tr>
+<tr>
+<td>CAP_SYS_RAWIO</td>
+<td>17</td>
+<td>允许对ioperm/iopl的访问</td>
+</tr>
+<tr>
+<td>CAP_SYS_CHROOT</td>
+<td>18(chroot)</td>
+<td>允许使用chroot()系统调用</td>
+</tr>
+<tr>
+<td>CAP_SYS_PTRACE</td>
+<td>19(ptrace)</td>
+<td>允许跟踪任何进程</td>
+</tr>
+<tr>
+<td>CAP_SYS_PACCT</td>
+<td>20(acct)</td>
+<td>允许配置进程记账</td>
+</tr>
+<tr>
+<td>CAP_SYS_ADMIN</td>
+<td>21</td>
+<td>允许执行系统管理任务</td>
+</tr>
+<tr>
+<td>CAP_SYS_BOOT</td>
+<td>22(reboot)</td>
+<td>允许重新启动系统</td>
+</tr>
+<tr>
+<td>CAP_SYS_NICE</td>
+<td>23(nice)</td>
+<td>允许提升优先级，设置其他进程优先级</td>
+</tr>
+<tr>
+<td>CAP_SYS_RESOURCE</td>
+<td>24(setrlimit)</td>
+<td>设置资源限制</td>
+</tr>
+<tr>
+<td>CAP_SYS_TIME</td>
+<td>25(stime)</td>
+<td>允许改变系统时钟</td>
+</tr>
+<tr>
+<td>CAP_SYS_TTY_CONFIG</td>
+<td>26(vhangup)</td>
+<td>允许配置TTY设备</td>
+</tr>
+<tr>
+<td>CAP_MKNOD</td>
+<td>27(mknod)</td>
+<td>允许使用mknod()系统调用，创建特殊文件</td>
+</tr>
+<tr>
+<td>CAP_LEASE</td>
+<td>28(fcntl)</td>
+<td>为任意文件建立租约</td>
+</tr>
+<tr>
+<td>CAP_AUDIT_WRITE</td>
+<td>29</td>
+<td>允许向内核审计日志写记录</td>
+</tr>
+<tr>
+<td>CAP_AUDIT_CONTROL</td>
+<td>30</td>
+<td>启用或禁用内核审计，修改审计过滤器规则</td>
+</tr>
+<tr>
+<td>CAP_SETFCAP</td>
+<td>31</td>
+<td>设置文件权能</td>
+</tr>
+<tr>
+<td>CAP_MAC_OVERRIDE</td>
+<td>32</td>
+<td>允许MAC配置或状态改变，为smack LSM实现</td>
+</tr>
+<tr>
+<td>CAP_MAC_ADMIN</td>
+<td>33</td>
+<td>覆盖强制访问控制</td>
+</tr>
+<tr>
+<td>CAP_SYSLOG</td>
+<td>34(syslog)</td>
+<td>执行特权syslog(2)操作</td>
+</tr>
+<tr>
+<td>CAP_WAKE_ALARM</td>
+<td>35</td>
+<td>触发将唤醒系统的东西</td>
+</tr>
+<tr>
+<td>CAP_BLOCK_SUSPEND</td>
+<td>36(epoll)</td>
+<td>可以阻塞系统挂起的特性</td>
+</tr>
+<tr>
+<td>CAP_AUDIT_READ</td>
+<td>37</td>
+<td>允许通过一个多播socket读取审计日志</td>
+</tr>
+</tbody>
+</table>
+<p>详情见<a href="http://man7.org/linux/man-pages/man7/capabilities.7.html" target="_blank" rel="noopener">man capabilities</a> 。</p>
+<hr>
+<h3 id="基于PAM用户权限设置系统"><a href="#基于PAM用户权限设置系统" class="headerlink" title="基于PAM用户权限设置系统"></a>基于PAM用户权限设置系统</h3><p>PAM 的全称为“可插拔认证模块（Pluggable Authentication Modules）”。设计的初衷是将不同的底层认证机制集中到一个高层次的API中，从而省去开发人员自己去设计和实现各种繁杂的认证机制的麻烦。</p>
+<p>PAM认证一般遵循这样的顺序：Service(服务)→PAM(配置文件)→pam_*.so，PAM配置文件在<code>/etc/pam.d/</code> 目录下，原理图如下：</p>
+<p><img src="/2018/05/01/Linux权能与PAM机制/pam.png" alt="pam"></p>
+<p>PAM中配置字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Moudle_type  Control_flag  Moudle_path Moudle_option/moudle_args</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>Module_type</code> 将为 <code>Service_name</code> 字段中的相应服务指定模块类型</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>模块类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>auth(验证模块)</td>
+<td>用于验证用户或设置/销毁凭证</td>
+</tr>
+<tr>
+<td>account(帐户管理模块)</td>
+<td>将执行与访问、帐户及凭证有效期、密码限制/规则等有关的操作</td>
+</tr>
+<tr>
+<td>session(会话管理模块)</td>
+<td>定义用户登录前的,及用户退出后所要进行的操作.如:登录连接信息,用户数据的打开与关闭,挂载文件系统等</td>
+</tr>
+<tr>
+<td>passwd(密码管理模块)</td>
+<td>将执行与密码更改/更新有关的操作</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Control_flag 将指定模块的堆栈行为，配置文件中列出模块被调用的顺序</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>控制标记</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Required</td>
+<td>堆栈中的所有 Required 模块必须看作一个成功的结果。如果一个或多个 Required 模块失败，则实现堆栈中的所有 Required 模块，但是将返回第一个错误</td>
+</tr>
+<tr>
+<td>requisite</td>
+<td>如果本模块没有被满足，那本次认证一定失败，而且整个栈立即中止并返回错误信号</td>
+</tr>
+<tr>
+<td>Sufficient</td>
+<td>如果标记为 sufficient 的模块成功并且先前没有 Required 或 sufficient 模块失败，则忽略堆栈中的所有其余模块并返回成功</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td>如果堆栈中没有一个模块是 required 并且没有任何一个 sufficient 模块成功，则服务/应用程序至少要有一个 optional 模块成功</td>
+</tr>
+<tr>
+<td>include</td>
+<td>包含其他规则（服务），文件嵌套，可以互相调用，如：login，auth，nclude ，system-auth等</td>
+</tr>
+<tr>
+<td>[value1=action1  value2=action2 ….]</td>
+<td>六种动作：ok ，done，bad，die，ignore，reset。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Required：堆栈中的所有 Required 模块必须看作一个成功的结果。如果一个或多个 Required 模块失败，则实现堆栈中的所有 Required 模块，但是将返回第一个错误。</li>
+<li>requisite：如果本模块没有被满足，那本次认证一定失败，而且整个栈立即中止并返回错误信号。</li>
+<li>Sufficient：如果标记为 sufficient 的模块成功并且先前没有 Required 或 sufficient 模块失败，则忽略堆栈中的所有其余模块并返回成功。</li>
+<li>Optional：如果堆栈中没有一个模块是 required 并且没有任何一个 sufficient 模块成功，则服务/应用程序至少要有一个 optional 模块成功。</li>
+<li>include：包含其他规则（服务），文件嵌套，可以互相调用，如：login，auth，nclude ，system-auth等</li>
+<li>高级控制条件： [value1=action1  value2=action2 ….]， 六种动作：ok ，done，bad，die，ignore，reset。</li>
+</ul>
+<p>​       Example：auth [user_unknown=ignore success=ok ignore=ignore default=bad] pam_securetty.so</p>
+<ol>
+<li><code>Module_path</code> 将指定实现模块的库对象的路径名称。默认情况下，它将被设为 <code>/lib/security</code>。        <img src="/2018/05/01/Linux权能与PAM机制/libpam.png" alt="libpam"></li>
+<li>Module_options/module_args（可选字段）将指定可以传递给服务模块的选项或实参。</li>
+</ol>
+<hr>
+<p>实验：配置用户<code>userping</code> ，设置<code>cap_net_raw</code> 权能。</p>
+<ul>
+<li>添加用户<code>userping</code>  :  <code>sudo adduser userping</code> </li>
+<li>查看并清除<code>/bin/ping</code> 的权能：</li>
+</ul>
+<p><img src="/2018/05/01/Linux权能与PAM机制/%E9%80%89%E5%8C%BA_057.png" alt="选区_057"></p>
+<ul>
+<li>切换到用户<code>userping</code> 再<code>ping</code> 无法<code>ping</code>   : <code>su userping</code> </li>
+<li><code>userping</code> 登录时给<code>/bin/ping</code> 添加权能：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>####################################################</span><br><span class="line"><span class="meta">#</span> File Name: ping_cap.sh</span><br><span class="line"><span class="meta">#</span> Author: xsyin</span><br><span class="line"><span class="meta">#</span> mail: shouyinXu@163.com</span><br><span class="line"><span class="meta">#</span> Created Time: 2018年04月30日 星期一 16时05分57秒</span><br><span class="line"><span class="meta">#</span>###################################################</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">[ "$PAM_TYPE" = "open_session" ] || exit 0</span><br><span class="line"></span><br><span class="line">if [ "$PAM_USER" == "userping" ]; then</span><br><span class="line">	setcap cap_net_raw=eip /bin/ping</span><br><span class="line">	echo "SUCCESS"</span><br><span class="line">else</span><br><span class="line">	echo "FAILURE"</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将<code>ping_cap.sh</code> 移动到 <code>/usr/local/bin</code> 路径下，并设置为可执行：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod u+x /usr/loca/bin/ping_cap.sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li>所有登录都使用<code>common-session</code> 模块：</li>
+</ul>
+<p><img src="/2018/05/01/Linux权能与PAM机制/%E9%80%89%E5%8C%BA_058.png" alt="选区_058"></p>
+<p>因此在<code>common-session</code> 模块中添加规则: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session  optional  pam_exec.so debug log=/tmp/pam_exec.log seteuid /usr/local/bin/ping_cap</span><br></pre></td></tr></table></figure>
+<p>必须模块，开启了<code>debud</code>模式，用户<code>userping</code> 每次登录会执行<code>ping_cap</code></p>
+<ul>
+<li>切换到<code>userping</code> 用户：</li>
+</ul>
+<p><img src="/2018/05/01/Linux权能与PAM机制/%E9%80%89%E5%8C%BA_059.png" alt="选区_059"></p>
+<p>出错多次，最终调试成功：</p>
+<p><img src="/2018/05/01/Linux权能与PAM机制/%E9%80%89%E5%8C%BA_061.png" alt="选区_060"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>优点：<code>userping</code> 用户无法执行特权命令，通过<code>pam</code> 可赋予一些特权操作。</p>
+<p>缺点：本实验中修改了<code>ping</code> 的文件权能，影响了其他用户。退出<code>userping</code> 后，<code>ping</code> 命令变成有效了。</p>
+<p>过渡C版本：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*************************************************************************</span></span><br><span class="line"><span class="comment">    &gt; File Name: ping_cap.c</span></span><br><span class="line"><span class="comment">    &gt; Author: xsyin</span></span><br><span class="line"><span class="comment">    &gt; Mail: shouyinXu@163.com </span></span><br><span class="line"><span class="comment">    &gt; Created Time: 2018年04月30日 星期一 14时56分35秒</span></span><br><span class="line"><span class="comment">    &gt; Make: gcc ping_cap.c -lcap -o ping_cap</span></span><br><span class="line"><span class="comment"> ************************************************************************/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/capability.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/prctl.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> _POSIX_SOURCE</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">int</span> errno;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *path_p = <span class="string">"/bin/ping"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">listCaps</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">cap_t</span> caps = cap_get_file(path_p);</span><br><span class="line">    <span class="keyword">ssize_t</span> y = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"The file %s was give capabilities %s\n"</span>,path_p, cap_to_text(caps, &amp;y));</span><br><span class="line">    fflush(<span class="number">0</span>);</span><br><span class="line">    cap_free(caps);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">uid_t</span> uid = getuid();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(uid != <span class="number">1000</span>) </span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"uid:%d\n"</span>, uid);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">cap_value_t</span> cap_values[] = &#123;CAP_NET_RAW&#125;;</span><br><span class="line">	<span class="keyword">cap_t</span> caps = cap_init();</span><br><span class="line">	cap_set_flag(caps,CAP_PERMITTED,<span class="number">1</span>,cap_values,CAP_SET);</span><br><span class="line">	cap_set_flag(caps,CAP_EFFECTIVE,<span class="number">1</span>,cap_values,CAP_SET);</span><br><span class="line">	cap_set_flag(caps,CAP_INHERITABLE,<span class="number">1</span>,cap_values,CAP_SET);</span><br><span class="line">	<span class="keyword">if</span>(cap_set_file(path_p,caps))</span><br><span class="line">		perror(<span class="string">"cap_set_file() ERROR: "</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"success\n"</span>);</span><br><span class="line">	cap_free(caps);</span><br><span class="line">	listCaps();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>缺陷：未搞清楚如何获取PAM正在授权的用户，无法判断切换至<code>userping</code> 用户时设置权能。</p>
+
       
     </div>
 
@@ -502,200 +831,87 @@
     
 
     
+      <div>
+         <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
 
+      </div>
     
 
     
 
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>我知道是不会有人点的，但万一有人想不开呢？</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Xsyin 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Xsyin 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
     
 
     
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://xsyin.github.io/2018/05/01/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Xsyin">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/boy.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xsyin's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/01/hello-world/" itemprop="url">
-                  永远的Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-01 00:33:24" itemprop="dateCreated datePublished" datetime="2018-05-01T00:33:24+08:00">2018-05-01</time>
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
+            <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
           
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">本文字数：</span>
-                
-                <span title="本文字数">431</span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">1 分钟</span>
-              
-            </div>
-          
-
-          
-
+            <a href="/tags/capability/" rel="tag"><i class="fa fa-tag"></i> capability</a>
           
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/01/hello-world/#更多" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/01/hello-world/" rel="next" title="永远的Hello World">
+                <i class="fa fa-chevron-left"></i> 永远的Hello World
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    
+          <span class="post-nav-divider"></span>
 
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -705,14 +921,24 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjEzNC8xMjY2OQ=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -733,8 +959,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -839,6 +1074,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#权能对应的系统调用"><span class="nav-number">1.</span> <span class="nav-text">权能对应的系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于PAM用户权限设置系统"><span class="nav-number">2.</span> <span class="nav-text">基于PAM用户权限设置系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1017,6 +1268,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
 
   
 
@@ -1041,6 +1296,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
