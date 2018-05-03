@@ -109,24 +109,30 @@
 
 
 
-  <meta name="description" content="​       中国科学院大学研究生一枚，正在科研路上搬砖，写写博客将自己觉得有意义的东西放上来，免得哪天找不到～">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="https://xsyin.github.io/about/index.html">
+  <meta name="description" content="本设计为计算机系统结构实验，写此文仅为总结。   1.准备工作 安装Xilinx ISE Design Suite 14.7  本设计使用Verilog HDL硬件描述语言，需熟悉其基本语法。">
+<meta name="keywords" content="MIPS CPU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIPS CPU单周期设计">
+<meta property="og:url" content="https://xsyin.github.io/2018/05/03/MIPS-CPU单周期设计/index.html">
 <meta property="og:site_name" content="Xsyin&#39;s Blog">
-<meta property="og:description" content="​       中国科学院大学研究生一枚，正在科研路上搬砖，写写博客将自己觉得有意义的东西放上来，免得哪天找不到～">
+<meta property="og:description" content="本设计为计算机系统结构实验，写此文仅为总结。   1.准备工作 安装Xilinx ISE Design Suite 14.7  本设计使用Verilog HDL硬件描述语言，需熟悉其基本语法。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-30T16:31:53.596Z">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/03/MIPS-CPU单周期设计/1-3-1.png">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/03/MIPS-CPU单周期设计/cpu.png">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/03/MIPS-CPU单周期设计/1-3-3.png">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/03/MIPS-CPU单周期设计/1-t-1.png">
+<meta property="og:updated_time" content="2018-05-03T01:17:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="​       中国科学院大学研究生一枚，正在科研路上搬砖，写写博客将自己觉得有意义的东西放上来，免得哪天找不到～">
+<meta name="twitter:title" content="MIPS CPU单周期设计">
+<meta name="twitter:description" content="本设计为计算机系统结构实验，写此文仅为总结。   1.准备工作 安装Xilinx ISE Design Suite 14.7  本设计使用Verilog HDL硬件描述语言，需熟悉其基本语法。">
+<meta name="twitter:image" content="https://xsyin.github.io/2018/05/03/MIPS-CPU单周期设计/1-3-1.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://xsyin.github.io/about/"/>
+  <link rel="canonical" href="https://xsyin.github.io/2018/05/03/MIPS-CPU单周期设计/"/>
 
 
 
@@ -136,7 +142,7 @@
   };
 </script>
 
-  <title>关于 | Xsyin's Blog</title>
+  <title>MIPS CPU单周期设计 | Xsyin's Blog</title>
   
 
 
@@ -267,7 +273,7 @@
         
         
           
-          <li class="menu-item menu-item-about menu-item-active">
+          <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
@@ -331,79 +337,337 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xsyin.github.io/2018/05/03/MIPS-CPU单周期设计/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xsyin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/boy.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xsyin's Blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">关于</h1>
-
-<div class="post-meta">
-  
-  
-
-
-
-</div>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <p>​       中国科学院大学研究生一枚，正在科研路上搬砖，写写博客将自己觉得有意义的东西放上来，免得哪天找不到～</p>
-
+          <h1 class="post-title" itemprop="name headline">MIPS CPU单周期设计
+              
+            
+          </h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-03 09:17:50" itemprop="dateCreated datePublished" datetime="2018-05-03T09:17:50+08:00">2018-05-03</time>
+            
+
+            
+          </span>
+
+          
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CPU/" itemprop="url" rel="index"><span itemprop="name">CPU</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">1.4k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">1 分钟</span>
+              
+            </div>
+          
+
+          
+
+          
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <blockquote>
+<p>本设计为计算机系统结构实验，写此文仅为总结。</p>
+</blockquote>
+<hr>
+<h2 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h2><ul>
+<li><p>安装Xilinx ISE Design Suite 14.7</p>
+</li>
+<li><p>本设计使用Verilog HDL硬件描述语言，需熟悉其基本语法。  </p>
+<a id="more"></a>
+</li>
+</ul>
+<h2 id="2-设计总体要求"><a href="#2-设计总体要求" class="headerlink" title="2.设计总体要求"></a>2.设计总体要求</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="(1)概述"></a>(1)概述</h3><p>单周期（Single Cycle）CPU是指CPU从取出1条指令到执行完该指令只需1个时钟周期。<br><img src="/2018/05/03/MIPS-CPU单周期设计/1-3-1.png" alt=""><br>一条指令的执行过程包括：取指令→分析指令→执行指令→保存结果（如果有的话）。对于单周期CPU来说，这些执行步骤均在一个时钟周期内完成。</p>
+<h3 id="2-设计实现电路"><a href="#2-设计实现电路" class="headerlink" title="(2)设计实现电路"></a>(2)设计实现电路</h3><p><img src="/2018/05/03/MIPS-CPU单周期设计/cpu.png" alt=""></p>
+<h3 id="3-实现指令集"><a href="#3-实现指令集" class="headerlink" title="(3)实现指令集"></a>(3)实现指令集</h3><p>MIPS指令系统结构有MIPS-32和MIPS-64两种。本实验的MIPS指令选用MIPS-32。以下所说的MIPS指令均指MIPS-32。<br>MIPS的指令格式为32位。图3-3给出了MIPS指令的3种格式。</p>
+<p><img src="/2018/05/03/MIPS-CPU单周期设计/1-3-3.png" alt=""><br>本实验只选取了18条典型的MIPS指令来描述CPU逻辑电路的设计方法。表3-1列出了本实验的所涉及到的18条MIPS指令。<br><img src="/2018/05/03/MIPS-CPU单周期设计/1-t-1.png" alt=""><br>Op和Op2为操作码；<br>shift保存要移位的位数；<br>rd、rs、rt分别为寄存器的寄存器号；<br>immediate保存立即数的低16位；<br>offset为偏移量；<br>address为转移地址的一部分。  </p>
+<p>1、对于add/sub/mul/and/or/xor  rd,rs,rt指令  //rdrs  op  rt<br>其中rs和rt是两个源操作数的寄存器号，rd是目的寄存器号。</p>
+<p>2、对于sll/srl/sra  rd,rt,shift 指令  //rdrt  移动  shift位</p>
+<p>3、对于addi/muli  rt,rs,imm 指令  //rtrs+imm(符号拓展)<br>rt是目的寄存器号，立即数要做符号拓展到32位。</p>
+<p>4、对于andi/ori/xori  rt,rs,imm 指令  //rtrs  op  imm(零拓展)<br>因为是逻辑指令，所以是零拓展。</p>
+<p>5、对于load  rt,offset(rs)  指令  //rt memory[rs+offset]<br>load是一条取存储器字的指令。寄存器rs的内容与符号拓展的offset想加，得到存储器地址。从存储器取来的数据存入rt寄存器。</p>
+<p>6、对于store  rt,offset(rs)  指令  // memory[rs+offset]  rt<br>store是一条存字指令。存储器地址的计算方法与load相同。</p>
+<p>7、对于beq  rs,rt,label指令  //if(rs==rt)  PClabel<br>beq是一条条件转移指令。当寄存器rs内容与rt相等时，转移到label。如果程序计数器PC是beq的指令地址，则label=PC+4+offset&lt;&lt;2。offset左移两位导致PC的最低两位永远是0，这是因为PC是字节地址，而一条指令要占4个字节。offset要进行符号拓展，因为beq能实现向前和向后两种转移。</p>
+<p>8、bne指令去beq类似，但是是在寄存器rs内容与rt不相等时，转移到label。</p>
+<p>9、对于jump  target指令  //PCtarget<br>jump是一条跳转指令。target是转移的目标地址，32位，由3部分组成：最高4位来自于PC+4的高4位，中间26位是指令中的address，最低两位为0。</p>
+<p>—————————————————————        未完待续—————————————————————————–</p>
+
       
     </div>
+
     
 
 
+    
+    
+    
 
     
+      <div>
+         <div>
     
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
     
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/05/03/MIPS-CPU单周期设计/">MIPS CPU单周期设计</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Xsyin 的个人博客">Xsyin</a></p>
+  <p><span>发布时间:</span>2018年05月03日 - 09:05</p>
+  <p><span>最后更新:</span>2018年05月03日 - 09:05</p>
+  <p><span>原始链接:</span><a href="/2018/05/03/MIPS-CPU单周期设计/" title="MIPS CPU单周期设计">https://xsyin.github.io/2018/05/03/MIPS-CPU单周期设计/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://xsyin.github.io/2018/05/03/MIPS-CPU单周期设计/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
+
+      </div>
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>我知道是不会有人点的，但万一有人想不开呢？</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Xsyin 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Xsyin 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MIPS/" rel="tag"><i class="fa fa-tag"></i> MIPS</a>
+          
+            <a href="/tags/CPU/" rel="tag"><i class="fa fa-tag"></i> CPU</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/01/基础栈溢出/" rel="next" title="基础栈溢出">
+                <i class="fa fa-chevron-left"></i> 基础栈溢出
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjEzNC8xMjY2OQ=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -424,8 +688,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -540,6 +813,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-准备工作"><span class="nav-number">1.</span> <span class="nav-text">1.准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-设计总体要求"><span class="nav-number">2.</span> <span class="nav-text">2.设计总体要求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述"><span class="nav-number">2.1.</span> <span class="nav-text">(1)概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-设计实现电路"><span class="nav-number">2.2.</span> <span class="nav-text">(2)设计实现电路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-实现指令集"><span class="nav-number">2.3.</span> <span class="nav-text">(3)实现指令集</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -746,6 +1035,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
