@@ -500,8 +500,9 @@
 <p>gcc (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609</p>
 <p>GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1</p>
 </blockquote>
+<a id="more"></a>
 <hr>
-<p>###准备工作</p>
+<p>###准备工作 </p>
 <p>为了更简单的方式实现栈溢出，需要关闭一些保护措施。</p>
 <ul>
 <li>关闭<code>ASLR</code>(地址空间布局随机化): </li>
@@ -511,7 +512,6 @@
 <li><code>Cannary</code>:开启<code>Cannary</code>之后，函数开始时在rbp和临时变量之间插入一个随机值，函数结束时验证这个值。如果不相等（也就是这个值被其他值覆盖了），就会调用<code>__stackchk_fail</code>函数，终止进程。对应GCC编译选项<code>-fno-stack-protector</code>解除该保护。</li>
 <li><code>NX</code>:开启NX保护后，程序的堆栈将会不可执行，对应GCC编译选项<code>-z execstack</code>解除该保护。</li>
 </ul>
-<a id="more"></a>
 <p>C语言栈帧结构如下：</p>
 <p><img src="/2018/05/06/栈溢出/c.jpg" alt="c"></p>
 <h3 id="漏洞程序"><a href="#漏洞程序" class="headerlink" title="漏洞程序"></a>漏洞程序</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line">FILE* g_fp; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">read_file</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">100</span>];</span><br><span class="line">    <span class="keyword">int</span> v,length=<span class="number">0</span>;           </span><br><span class="line">    g_fp=fopen(<span class="string">"../input/buffer_overflow_code_injection_write_file.txt"</span>,<span class="string">"r"</span>); </span><br><span class="line">    <span class="keyword">if</span>(g_fp==<span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"open file failed!\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">fscanf</span>(g_fp, <span class="string">"\\x%02x"</span>, &amp;v) == <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        buf[length++] = v;</span><br><span class="line">    &#125; </span><br><span class="line">    fclose(g_fp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    read_file(); </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -646,9 +646,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/栈溢出/" rel="tag"><i class="fa fa-tag"></i> 栈溢出</a>
-          
             <a href="/tags/安全/" rel="tag"><i class="fa fa-tag"></i> 安全</a>
+          
+            <a href="/tags/栈溢出/" rel="tag"><i class="fa fa-tag"></i> 栈溢出</a>
           
         </div>
       
@@ -670,6 +670,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/08/ubuntu搭建TexLive环境写slide/" rel="prev" title="ubuntu搭建TexLive环境写slide">
+                ubuntu搭建TexLive环境写slide <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -752,7 +756,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -771,7 +775,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -796,7 +802,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -893,7 +901,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">26k</span>
+    <span title="站点总字数">29k</span>
   
 
   
@@ -902,7 +910,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">24 分钟</span>
+    <span title="站点阅读时长">26 分钟</span>
   
 </div>
 

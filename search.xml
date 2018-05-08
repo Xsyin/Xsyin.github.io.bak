@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[ubuntu搭建TexLive环境写slide]]></title>
+    <url>%2F2018%2F05%2F08%2Fubuntu%E6%90%AD%E5%BB%BATexLive%E7%8E%AF%E5%A2%83%E5%86%99slide%2F</url>
+    <content type="text"><![CDATA[前言 想做ppt，但几次ppt演示时出现兼容问题，于是想尝试格式稳定的beamer 做ppt 。 本机空间不足，apt-get install 命令无法指定安装路径，于是挂载了一个硬盘，手动下载后安装，空间充足可sudo apt install texlive-full texstudio 一行命令解决。 texlive安装 进入准备安装路径，使用更快的清华大学镜像源下载texlive 安装包： 12$ cd /media/xsyin/extra$ wget https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/texlive2018.iso 单击挂载光盘，用浏览器打开主目录下的index.html ，找到tex Live安装指南 ，或阅读网络版TEX Live安装指南 。使用图形化安装，安装依赖： 12$ sudo apt install perltk$ ./install-tl -gui=perltk Installation collections --&gt; change 选择安装模块，去除一些用不着的语言Cyrillic 至Spanish ，选上US and UK English ： TEXDIR --&gt;change 修改为安装路径：/media/xsyin/extra/texlive2018 ，其余默认，开始安装。 配置环境变量，编辑~/.bashrc， 添加： 123export PATH=$PATH:/media/xsyin/extra/texlive2018/bin/x86_64-linuxexport MANPATH=/media/xsyin/extra/texlive2018/texmf-dist/doc/man:$MANPATHexport INFOPATH=/media/xsyin/extra/texlive2018/texmf-dist/doc/info:$INFOPATH source ~/.bashrc 启用配置。 管理你的安装tlmgr ，设置清华大学开源仓库并更新，已安装beamer： 123$ tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet$ tlmgr update -all$ tlmgr info beamer 也可以GUI 模式启动： tlmgr -gui 测试安装是否成功： 123$ tex --version$ latex sample2e.tex$ pdflatex sample2e.tex texstudio安装 texstudio 占用空间不大，使用sudo apt install texstusio 安装或在源码包下载页面 选择对应的安装包，依赖不满足使用sudo apt -f install 安装。 texstudio 打开，配置语言为中文. beamer 快速上手一般采用现成的模板，在texstudio中新建，复制以下最小模板，构建并查看： 123456789101112131415161718192021222324252627282930313233343536373839404142434445%!TEX program = xelatex\documentclass&#123;beamer&#125;\usepackage&#123;xeCJK&#125;\usetheme&#123;Madrid&#125;\title[标题]&#123;完整标题&#125;\author[作者]&#123;完整作者&#125;\institute[单位]&#123;完整单位列表&#125;\date[日期]&#123;完整日期&#125;\begin&#123;document&#125;%------------------------------------------------\begin&#123;frame&#125; \titlepage\end&#123;frame&#125;%------------------------------------------------\begin&#123;frame&#125;&#123;Outline&#125; \tableofcontents\end&#123;frame&#125;%------------------------------------------------\section&#123;背景介绍&#125;\begin&#123;frame&#125;\frametitle&#123;中文&#125;\begin&#123;block&#125;&#123;模块&#125;内容 \begin&#123;itemize&#125; \item 条目1 \end&#123;itemize&#125;\end&#123;block&#125;\end&#123;frame&#125;%------------------------------------------------\end&#123;document&#125; 好了，现在可以开(ku) 心(bi)的写slide 了。 参考资料Beamer 显示中文的模板]]></content>
+      <categories>
+        <category>tex</category>
+      </categories>
+      <tags>
+        <tag>-tex</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[栈溢出]]></title>
     <url>%2F2018%2F05%2F06%2F%E6%A0%88%E6%BA%A2%E5%87%BA%2F</url>
     <content type="text"><![CDATA[基于64位ubuntu 16.04操作系统版本以及gcc,gdb版本如下： Linux ubuntu 4.4.0-116-generic #140-Ubuntu SMP Mon Feb 12 21:23:04 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux gcc (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609 GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1 ###准备工作 为了更简单的方式实现栈溢出，需要关闭一些保护措施。 关闭ASLR(地址空间布局随机化): 1echo 0 |sudo tee /proc/sys/kernel/randomize_va_space Cannary:开启Cannary之后，函数开始时在rbp和临时变量之间插入一个随机值，函数结束时验证这个值。如果不相等（也就是这个值被其他值覆盖了），就会调用__stackchk_fail函数，终止进程。对应GCC编译选项-fno-stack-protector解除该保护。 NX:开启NX保护后，程序的堆栈将会不可执行，对应GCC编译选项-z execstack解除该保护。 C语言栈帧结构如下： 漏洞程序123456789101112131415161718192021222324252627#include&lt;stdio.h&gt;#include&lt;stdlib.h&gt;#include&lt;string.h&gt;FILE* g_fp; void read_file()&#123; char buf[100]; int v,length=0; g_fp=fopen("../input/buffer_overflow_code_injection_write_file.txt","r"); if(g_fp==NULL) &#123; printf("open file failed!\n"); exit(1); &#125; while (fscanf(g_fp, "\\x%02x", &amp;v) == 1) &#123; buf[length++] = v; &#125; fclose(g_fp);&#125;int main(int argc,char *argv[])&#123; read_file(); return 0;&#125; 分析 分析漏洞代码， while循环出现栈溢出，读入文件中覆盖了rbp与返回地址，且修改其指向shellcode起始指令； 分析读入文件，即将返回地址处修改为shellcode首地址 编译： 1gcc -g -z execstack -fno-stack-protector buffer_overflow_code_injection_write_file.c -o buffer_overflow 运行 使用gdb调试运行：gdb buffer_overflow ​ 由调试可知栈帧结构如图所示，因此栈溢出时会覆盖length值，即100后有覆盖为97,最终读入0x6d即109，刚好从rbp指向地址开始填充之后的8个0x61，之后填充返回地址，由图中分析可知该返回地址应改为0x00007fffffffdab0，小端模式，读入文件中\x20\x18改为\xb0\xda。重新调试： 成功跳入shellcode，继续运行： 正常退出，此时output文件夹已生成新文件： 在gdb调试环境下运行成功，但实际运行却出现段错误： 改进​ 经搜索查阅资料得知是gdb有自己的变量环境，变量的存放地址和程序实际运行会不一致，因此只需要把返回地址改为shellcode实际存放的地址即可，填充长度无须改变，因为相对偏移不变。 要获取shellcode首条指令的地址，可以在程序中打印出length的地址加上4(length)+8(rbp)+8(返回地址)=20,也可以利用内核转储获取真实地址。 首先启用内核转储：ulimit -c unlimited，缺省情况下，内核在coredump时所产生的core文件放在与该程序相同的目录中，并且文件名固定为core。 由图中可知应把读入文件返回地址处改为：\x40\xdb\xff\xff\xff\x7f\x00\x00，再次运行： 正常环境下运行成功。 总结复现关键点： 关闭保护措施 找准rbp后保存返回地址的8个字节 确定shellcode的入口地址]]></content>
@@ -8,8 +19,8 @@
         <category>安全</category>
       </categories>
       <tags>
-        <tag>栈溢出</tag>
         <tag>安全</tag>
+        <tag>栈溢出</tag>
       </tags>
   </entry>
   <entry>
@@ -20,8 +31,8 @@
         <category>安全</category>
       </categories>
       <tags>
-        <tag>栈溢出</tag>
         <tag>安全</tag>
+        <tag>栈溢出</tag>
       </tags>
   </entry>
   <entry>
@@ -44,8 +55,8 @@
         <category>安全</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>栈溢出</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
