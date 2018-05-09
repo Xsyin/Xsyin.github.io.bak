@@ -539,17 +539,17 @@
 </tr>
 <tr>
 <td>CAP_SETGID</td>
-<td>6</td>
+<td>6(setgid)</td>
 <td>设置或管理进程GID</td>
 </tr>
 <tr>
 <td>CAP_SETUID</td>
-<td>7</td>
+<td>7(setuid)</td>
 <td>管理或设置进程UID</td>
 </tr>
 <tr>
 <td>CAP_SETPCAP</td>
-<td>8</td>
+<td>8(capset)</td>
 <td>允许授予或删除其他进程的任何权能</td>
 </tr>
 <tr>
@@ -574,7 +574,7 @@
 </tr>
 <tr>
 <td>CAP_NET_RAW</td>
-<td>13</td>
+<td>13(socket)</td>
 <td>允许使用原始套接字</td>
 </tr>
 <tr>
@@ -705,9 +705,9 @@
 <p>PAM认证一般遵循这样的顺序：Service(服务)→PAM(配置文件)→pam_*.so，PAM配置文件在<code>/etc/pam.d/</code> 目录下，原理图如下：</p>
 <p><img src="/2018/05/01/Linux权能与PAM机制/pam.png" alt="pam"></p>
 <p>PAM中配置字段：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Moudle_type  Control_flag  Moudle_path Moudle_option/moudle_args</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moudle_type  control_flag  moudle_path moudle_option/moudle_args</span><br></pre></td></tr></table></figure>
 <ol>
-<li><code>Module_type</code> 将为 <code>Service_name</code> 字段中的相应服务指定模块类型</li>
+<li><code>module_type</code> 为 相应服务指定模块类型</li>
 </ol>
 <table>
 <thead>
@@ -736,7 +736,7 @@
 </tbody>
 </table>
 <ol start="2">
-<li>Control_flag 将指定模块的堆栈行为，配置文件中列出模块被调用的顺序</li>
+<li>control_flag 将指定模块的堆栈行为，配置文件中列出模块被调用的顺序</li>
 </ol>
 <table>
 <thead>
@@ -747,24 +747,24 @@
 </thead>
 <tbody>
 <tr>
-<td>Required</td>
-<td>堆栈中的所有 Required 模块必须看作一个成功的结果。如果一个或多个 Required 模块失败，则实现堆栈中的所有 Required 模块，但是将返回第一个错误</td>
+<td>required</td>
+<td>堆栈中的所有 required 模块必须看作一个成功的结果。如果一个或多个 required 模块失败，则实现堆栈中的所有 required 模块，但是将返回第一个错误</td>
 </tr>
 <tr>
 <td>requisite</td>
 <td>如果本模块没有被满足，那本次认证一定失败，而且整个栈立即中止并返回错误信号</td>
 </tr>
 <tr>
-<td>Sufficient</td>
-<td>如果标记为 sufficient 的模块成功并且先前没有 Required 或 sufficient 模块失败，则忽略堆栈中的所有其余模块并返回成功</td>
+<td>sufficient</td>
+<td>如果标记为 sufficient 的模块成功并且先前没有 required 或 sufficient 模块失败，则忽略堆栈中的所有其余模块并返回成功</td>
 </tr>
 <tr>
-<td>Optional</td>
+<td>optional</td>
 <td>如果堆栈中没有一个模块是 required 并且没有任何一个 sufficient 模块成功，则服务/应用程序至少要有一个 optional 模块成功</td>
 </tr>
 <tr>
 <td>include</td>
-<td>包含其他规则（服务），文件嵌套，可以互相调用，如：login，auth，nclude ，system-auth等</td>
+<td>包含其他规则（服务），文件嵌套，可以互相调用，如：login，auth，system-auth等</td>
 </tr>
 <tr>
 <td>[value1=action1  value2=action2 ….]</td>
@@ -774,8 +774,8 @@
 </table>
 <p>​        Example：auth [user_unknown=ignore success=ok ignore=ignore default=bad] pam_securetty.so</p>
 <ol start="3">
-<li><code>Module_path</code> 将指定实现模块的库对象的路径名称。默认情况下，它将被设为 <code>/lib/security</code>。        <img src="/2018/05/01/Linux权能与PAM机制/libpam.png" alt="libpam"></li>
-<li>Module_options/module_args（可选字段）将指定可以传递给服务模块的选项或实参。</li>
+<li><code>module_path</code> 将指定实现模块的库对象的路径名称。默认情况下，它将被设为 <code>/lib/security</code>。        <img src="/2018/05/01/Linux权能与PAM机制/libpam.png" alt="libpam"></li>
+<li>module_options/module_args（可选字段）将指定可以传递给服务模块的选项或实参。</li>
 </ol>
 <hr>
 <p>实验：配置用户<code>userping</code> ，设置<code>cap_net_raw</code> 权能。</p>
@@ -788,7 +788,7 @@
 <li>切换到用户<code>userping</code> 再<code>ping</code> 无法<code>ping</code>   : <code>su userping</code> </li>
 <li><code>userping</code> 登录时给<code>/bin/ping</code> 添加权能：</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">####################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> File Name: ping_cap.sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Author: xsyin</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> mail: shouyinXu@163.com</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Created Time: 2018年04月30日 星期一 16时05分57秒</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###################################################</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line">[ "$PAM_TYPE" = "open_session" ] || exit 0</span><br><span class="line"></span><br><span class="line">if [ "$PAM_USER" == "userping" ]; then</span><br><span class="line">	setcap cap_net_raw=eip /bin/ping</span><br><span class="line">	echo "SUCCESS"</span><br><span class="line">else</span><br><span class="line">	echo "FAILURE"</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">####################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> File Name: ping_cap.sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Author: xsyin</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> mail: shouyinXu@163.com</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Created Time: 2018年04月30日 星期一 16时05分57秒</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###################################################</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line">[ "$PAM_TYPE" == "open_session" ] || exit 0</span><br><span class="line"></span><br><span class="line">if [ "$PAM_USER" == "userping" ]; then</span><br><span class="line">	setcap cap_net_raw=eip /bin/ping</span><br><span class="line">	echo "SUCCESS"</span><br><span class="line">else</span><br><span class="line">	echo "FAILURE"</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 <ul>
 <li>将<code>ping_cap.sh</code> 移动到 <code>/usr/local/bin</code> 路径下，并设置为可执行：</li>
 </ul>
@@ -798,8 +798,8 @@
 </ul>
 <p><img src="/2018/05/01/Linux权能与PAM机制/%E9%80%89%E5%8C%BA_058.png" alt="选区_058"></p>
 <p>因此在<code>common-session</code> 模块中添加规则: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session  optional  pam_exec.so debug log=/tmp/pam_exec.log seteuid /usr/local/bin/ping_cap</span><br></pre></td></tr></table></figure>
-<p>必须模块，开启了<code>debud</code>模式，用户<code>userping</code> 每次登录会执行<code>ping_cap</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session  optional  pam_exec.so debug log=/tmp/pam_exec.log seteuid /usr/local/bin/ping_cap.sh</span><br></pre></td></tr></table></figure>
+<p>必须模块，开启了<code>debug</code>模式，用户<code>userping</code> 每次登录会执行<code>ping_cap.sh</code></p>
 <ul>
 <li>切换到<code>userping</code> 用户：</li>
 </ul>
