@@ -1,175 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-
-    
-    
   <url>
     <loc>https://xsyin.github.io/2018/05/08/ubuntu%E6%90%AD%E5%BB%BATexLive%E7%8E%AF%E5%A2%83%E5%86%99slide/</loc>
     <lastmod>2018-05-07T23:03:40.000Z</lastmod>
-    <data>
-        <display>
-        <title>ubuntu搭建TexLive环境写slide</title>
-        <pubTime>2018-05-07T23:03:40.000Z</pubTime>
-        
-        <tag>-tex</tag>
-         
-         
-           
-             
-              <breadCrumb title="tex" url="https://xsyin.github.io/categories/tex/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
+  </url>  <url>
     <loc>https://xsyin.github.io/2018/05/06/%E6%A0%88%E6%BA%A2%E5%87%BA/</loc>
     <lastmod>2018-05-06T11:34:43.000Z</lastmod>
-    <data>
-        <display>
-        <title>栈溢出</title>
-        <pubTime>2018-05-06T11:34:43.000Z</pubTime>
-        
-        <tag>栈溢出</tag>
-         
-        <tag>安全</tag>
-         
-         
-           
-             
-              <breadCrumb title="安全" url="https://xsyin.github.io/categories/%E5%AE%89%E5%85%A8/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
+  </url>  <url>
     <loc>https://xsyin.github.io/2018/05/05/%E9%AB%98%E7%BA%A7%E6%A0%88%E6%BA%A2%E5%87%BA%E5%8F%8Aret2libc/</loc>
     <lastmod>2018-05-05T01:38:08.000Z</lastmod>
-    <data>
-        <display>
-        <title>高级栈溢出及ret2libc</title>
-        <pubTime>2018-05-05T01:38:08.000Z</pubTime>
-        
-        <tag>栈溢出</tag>
-         
-        <tag>安全</tag>
-         
-         
-           
-             
-              <breadCrumb title="安全" url="https://xsyin.github.io/categories/%E5%AE%89%E5%85%A8/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
+  </url>  <url>
     <loc>https://xsyin.github.io/2018/05/03/MIPS-CPU%E5%8D%95%E5%91%A8%E6%9C%9F%E8%AE%BE%E8%AE%A1/</loc>
     <lastmod>2018-05-03T01:17:50.000Z</lastmod>
-    <data>
-        <display>
-        <title>MIPS CPU单周期设计</title>
-        <pubTime>2018-05-03T01:17:50.000Z</pubTime>
-        
-        <tag>MIPS</tag>
-         
-        <tag>CPU</tag>
-         
-         
-           
-             
-              <breadCrumb title="CPU" url="https://xsyin.github.io/categories/CPU/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
+  </url>  <url>
     <loc>https://xsyin.github.io/2018/05/01/%E5%9F%BA%E7%A1%80%E6%A0%88%E6%BA%A2%E5%87%BA/</loc>
     <lastmod>2018-05-01T02:53:54.000Z</lastmod>
-    <data>
-        <display>
-        <title>基础栈溢出</title>
-        <pubTime>2018-05-01T02:53:54.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>栈溢出</tag>
-         
-         
-           
-             
-              <breadCrumb title="安全" url="https://xsyin.github.io/categories/%E5%AE%89%E5%85%A8/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
+  </url>  <url>
     <loc>https://xsyin.github.io/2018/05/01/Linux-%E6%9D%83%E8%83%BD%E6%9C%BA%E5%88%B6/</loc>
     <lastmod>2018-05-01T02:20:22.000Z</lastmod>
-    <data>
-        <display>
-        <title>Linux 权能机制</title>
-        <pubTime>2018-05-01T02:20:22.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>capability</tag>
-         
-         
-           
-             
-              <breadCrumb title="Linux" url="https://xsyin.github.io/categories/Linux/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
+  </url>  <url>
     <loc>https://xsyin.github.io/2018/05/01/Linux%E6%9D%83%E8%83%BD%E4%B8%8EPAM%E6%9C%BA%E5%88%B6/</loc>
     <lastmod>2018-05-01T00:09:12.000Z</lastmod>
-    <data>
-        <display>
-        <title>Linux权能与PAM机制</title>
-        <pubTime>2018-05-01T00:09:12.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>capability</tag>
-         
-         
-           
-             
-              <breadCrumb title="Linux" url="https://xsyin.github.io/categories/Linux/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://xsyin.github.io/2018/05/01/hello-world/</loc>
+  </url>  <url>
+    <loc>https://xsyin.github.io/2018/10/24/hello-world/</loc>
     <lastmod>2018-04-30T16:33:24.641Z</lastmod>
-    <data>
-        <display>
-        <title>永远的Hello World</title>
-        <pubTime>2018-04-30T16:33:24.641Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-    
+  </url>
 </urlset>

@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[永远的Hello World]]></title>
+    <url>%2F2018%2F10%2F24%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[ubuntu搭建TexLive环境写slide]]></title>
     <url>%2F2018%2F05%2F08%2Fubuntu%E6%90%AD%E5%BB%BATexLive%E7%8E%AF%E5%A2%83%E5%86%99slide%2F</url>
-    <content type="text"><![CDATA[前言 想做ppt，但几次ppt演示时出现兼容问题，于是想尝试格式稳定的beamer 做ppt 。 本机空间不足，apt-get install 命令无法指定安装路径，于是挂载了一个硬盘，手动下载后安装，空间充足可sudo apt install texlive-full texstudio 一行命令解决。 texlive安装 进入准备安装路径，使用更快的清华大学镜像源下载texlive 安装包： 12$ cd /media/xsyin/extra$ wget https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/texlive2018.iso 单击挂载光盘，用浏览器打开主目录下的index.html ，找到tex Live安装指南 ，或阅读网络版TEX Live安装指南 。使用图形化安装，安装依赖： 12$ sudo apt install perltk$ ./install-tl -gui=perltk Installation collections --&gt; change 选择安装模块，去除一些用不着的语言Cyrillic 至Spanish ，选上US and UK English ： TEXDIR --&gt;change 修改为安装路径：/media/xsyin/extra/texlive2018 ，其余默认，开始安装。 配置环境变量，编辑~/.bashrc， 添加： 123export PATH=$PATH:/media/xsyin/extra/texlive2018/bin/x86_64-linuxexport MANPATH=/media/xsyin/extra/texlive2018/texmf-dist/doc/man:$MANPATHexport INFOPATH=/media/xsyin/extra/texlive2018/texmf-dist/doc/info:$INFOPATH source ~/.bashrc 启用配置。 管理你的安装tlmgr ，设置清华大学开源仓库并更新，已安装beamer： 123$ tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet$ tlmgr update -all$ tlmgr info beamer 也可以GUI 模式启动： tlmgr -gui 测试安装是否成功： 123$ tex --version$ latex sample2e.tex$ pdflatex sample2e.tex texstudio安装 texstudio 占用空间不大，使用sudo apt install texstusio 安装或在源码包下载页面 选择对应的安装包，依赖不满足使用sudo apt -f install 安装。 texstudio 打开，配置语言为中文. beamer 快速上手一般采用现成的模板，在texstudio中新建，复制以下最小模板，构建并查看： 123456789101112131415161718192021222324252627282930313233343536373839404142434445%!TEX program = xelatex\documentclass&#123;beamer&#125;\usepackage&#123;xeCJK&#125;\usetheme&#123;Madrid&#125;\title[标题]&#123;完整标题&#125;\author[作者]&#123;完整作者&#125;\institute[单位]&#123;完整单位列表&#125;\date[日期]&#123;完整日期&#125;\begin&#123;document&#125;%------------------------------------------------\begin&#123;frame&#125; \titlepage\end&#123;frame&#125;%------------------------------------------------\begin&#123;frame&#125;&#123;Outline&#125; \tableofcontents\end&#123;frame&#125;%------------------------------------------------\section&#123;背景介绍&#125;\begin&#123;frame&#125;\frametitle&#123;中文&#125;\begin&#123;block&#125;&#123;模块&#125;内容 \begin&#123;itemize&#125; \item 条目1 \end&#123;itemize&#125;\end&#123;block&#125;\end&#123;frame&#125;%------------------------------------------------\end&#123;document&#125; 好了，现在可以开(ku) 心(bi)的写slide 了。 参考资料Beamer 显示中文的模板]]></content>
+    <content type="text"><![CDATA[前言 想做ppt，但几次ppt演示时出现兼容问题，于是想尝试格式稳定的beamer 做ppt 。 本机空间不足，apt-get install 命令无法指定安装路径，于是挂载了一个硬盘，手动下载后安装，空间充足可sudo apt install texlive-full texstudio 一行命令解决。 texlive安装 进入准备安装路径，使用更快的清华大学镜像源下载texlive 安装包： 12$ cd /media/xsyin/extra$ wget https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/texlive2018.iso 单击挂载光盘，用浏览器打开主目录下的index.html ，找到tex Live安装指南 ，或阅读网络版TEX Live安装指南 。使用图形化安装，安装依赖： 12$ sudo apt install perl-tk$ ./install-tl -gui=perltk Installation collections --&gt; change 选择安装模块，去除一些用不着的语言Cyrillic 至Spanish ，选上US and UK English ： TEXDIR --&gt;change 修改为安装路径：/media/xsyin/extra/texlive2018 ，其余默认，开始安装。 配置环境变量，编辑~/.bashrc， 添加： 123export PATH=$PATH:/media/xsyin/extra/texlive2018/bin/x86_64-linuxexport MANPATH=/media/xsyin/extra/texlive2018/texmf-dist/doc/man:$MANPATHexport INFOPATH=/media/xsyin/extra/texlive2018/texmf-dist/doc/info:$INFOPATH source ~/.bashrc 启用配置。 管理你的安装tlmgr ，设置清华大学开源仓库并更新，已安装beamer： 123$ tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet$ tlmgr update -all$ tlmgr info beamer 也可以GUI 模式启动： tlmgr -gui 测试安装是否成功： 123$ tex --version$ latex sample2e.tex$ pdflatex sample2e.tex texstudio安装 texstudio 占用空间不大，使用sudo apt install texstusio 安装或在源码包下载页面 选择对应的安装包，依赖不满足使用sudo apt -f install 安装。 texstudio 打开，配置语言为中文. beamer 快速上手一般采用现成的模板，在texstudio中新建，复制以下最小模板，构建并查看： 123456789101112131415161718192021222324252627282930313233343536373839404142434445%!TEX program = xelatex\documentclass&#123;beamer&#125;\usepackage&#123;xeCJK&#125;\usetheme&#123;Madrid&#125;\title[标题]&#123;完整标题&#125;\author[作者]&#123;完整作者&#125;\institute[单位]&#123;完整单位列表&#125;\date[日期]&#123;完整日期&#125;\begin&#123;document&#125;%------------------------------------------------\begin&#123;frame&#125; \titlepage\end&#123;frame&#125;%------------------------------------------------\begin&#123;frame&#125;&#123;Outline&#125; \tableofcontents\end&#123;frame&#125;%------------------------------------------------\section&#123;背景介绍&#125;\begin&#123;frame&#125;\frametitle&#123;中文&#125;\begin&#123;block&#125;&#123;模块&#125;内容 \begin&#123;itemize&#125; \item 条目1 \end&#123;itemize&#125;\end&#123;block&#125;\end&#123;frame&#125;%------------------------------------------------\end&#123;document&#125; 好了，现在可以开(ku) 心(bi)的写slide 了。 参考资料Beamer 显示中文的模板]]></content>
       <categories>
         <category>tex</category>
       </categories>
       <tags>
-        <tag>-tex</tag>
+        <tag>tex</tag>
       </tags>
   </entry>
   <entry>
@@ -19,8 +24,8 @@
         <category>安全</category>
       </categories>
       <tags>
-        <tag>栈溢出</tag>
         <tag>安全</tag>
+        <tag>栈溢出</tag>
       </tags>
   </entry>
   <entry>
@@ -31,8 +36,8 @@
         <category>安全</category>
       </categories>
       <tags>
-        <tag>栈溢出</tag>
         <tag>安全</tag>
+        <tag>栈溢出</tag>
       </tags>
   </entry>
   <entry>
@@ -55,8 +60,8 @@
         <category>安全</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>栈溢出</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -79,13 +84,7 @@
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
-        <tag>capability</tag>
+        <tag>Linux capability</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[永远的Hello World]]></title>
-    <url>%2F2018%2F05%2F01%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
   </entry>
 </search>
